@@ -4,6 +4,7 @@ import (
 	"crypto"
 	"crypto/elliptic"
 	"crypto/rand"
+	"encoding/asn1"
 	"errors"
 	"math/big"
 )
@@ -94,13 +95,22 @@ func (ec *EllipticCurve) AgreeOnSecret(selfPrivate crypto.PrivateKey, otherPubli
 }
 
 // MarshalPublic encodes the key to byte array suitable for transport.
-func (ec *EllipticCurve) MarshalPublic(_ crypto.PublicKey) ([]byte, error) {
-	return nil, ErrNotImplemented
+func (ec *EllipticCurve) MarshalPublic(key crypto.PublicKey) ([]byte, error) {
+	point, ok := checkPublicKey(key)
+	if !ok {
+		return nil, ErrInvalidPublicKey
+	}
+	return asn1.Marshal(point)
 }
 
 // UnMarshalPublic just assembles back your Marshalled public key
-func (ec *EllipticCurve) UnMarshalPublic([]byte) (crypto.PublicKey, error) {
-	return nil, ErrNotImplemented
+func (ec *EllipticCurve) UnMarshalPublic(b []byte) (crypto.PublicKey, error) {
+	point := Point{}
+	_, err := asn1.Unmarshal(b, &point)
+	if err != nil {
+		return nil, ErrInvalidPublicKey
+	}
+	return point, nil
 }
 
 // GetEncrypter returns the SymmetricEncrypter which could be used for encrypting and decrypting
