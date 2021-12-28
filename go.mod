@@ -1,4 +1,4 @@
-module SangameswaranRS/diffie-hellman-exchange
+module github.com/SangameswaranRS/diffie-hellman-exchange
 
 go 1.17
 
