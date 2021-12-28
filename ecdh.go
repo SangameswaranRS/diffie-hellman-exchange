@@ -16,7 +16,6 @@ var (
 	ErrInvalidPublicKey            = errors.New("invalid public key")
 	ErrInvalidCurve                = errors.New("invalid elliptic curve")
 	ErrPrivateKeyCurveIncompatible = errors.New("private key curve incompatible")
-	ErrNotImplemented              = errors.New("not yet implemented")
 )
 
 // Point represents a generic elliptic curve Point with a
