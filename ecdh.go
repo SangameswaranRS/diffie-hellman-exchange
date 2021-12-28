@@ -41,7 +41,6 @@ type EllipticCurve struct {
 func (ec *EllipticCurve) NewRandomKeyPair() (crypto.PrivateKey, crypto.PublicKey, error) {
 	private, x, y, err := elliptic.GenerateKey(ec.curve, rand.Reader)
 	if err != nil {
-		private = nil
 		return nil, nil, err
 	}
 	public := Point{X: x, Y: y}
