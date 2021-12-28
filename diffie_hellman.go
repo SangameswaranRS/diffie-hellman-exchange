@@ -7,18 +7,18 @@ import "crypto"
 // of encryption, SymmetricEncrypter should return a SymmetricDecrypter on demand.
 type SymmetricEncrypter interface {
 	// Encrypt just encrypts the content.
-	Encrypt(content []byte, key []byte) ([]byte, error)
+	Encrypt(content []byte) ([]byte, error)
 
 	// GetDecrypter returns a SymmetricDecrypter pertinent to the
 	// Encryption algorithm used.
-	GetDecrypter() *SymmetricDecrypter
+	GetDecrypter() SymmetricDecrypter
 }
 
 // SymmetricDecrypter is a type that should be implemented by all "Symmetric"
 // curves and algorithms.
 type SymmetricDecrypter interface {
 	// Decrypt just decrypts the encrypted chunk
-	Decrypt(encryptedContent []byte, key []byte) ([]byte, error)
+	Decrypt(encryptedContent []byte) ([]byte, error)
 }
 
 // DHExchanger is a wrapper of sorts that gives us all the functionality required for
@@ -39,7 +39,7 @@ type DHExchanger interface {
 
 	// GetEncrypter returns the SymmetricEncrypter which could be used for encrypting and decrypting
 	// custom application level messages.
-	GetEncrypter() *SymmetricEncrypter
+	GetEncrypter(agreedKey []byte) SymmetricEncrypter
 
 	// PublicKey is derived from the given private key.
 	PublicKey(private crypto.PrivateKey) (crypto.PublicKey, error)

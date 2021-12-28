@@ -14,3 +14,25 @@ of earth.
 
 All the keys are ***Serializable*** allowing you to transport them as you wish.
 Transport is out of scope for this project.
+
+##### Id reconciliation
+
+This handshake creates a new Elliptic curve key(based on the curve you specify).
+If you want to use this with some other systems with different identity mechanisms,
+
+You may want to add a ***signature*** whenever you are transferring this public key. Use your
+default curve to add a sign to the public key you would be transferring.
+
+##### Wire support
+
+Usually only Public keys are transferred, so the library provides marshal and unmarshal support for them.
+
+##### Symmetric Encryption - AES GCM
+
+After a common secret key is agreed upon, the lib also provides some
+AES utils for encrypting and decrypting any random content you want.
+
+### Usage
+
+Refer the [tests](./ecdh_test.go) for usage. You may also want to refer the [interface](./diffie_hellman.go) for
+clarity on the methods supported.

@@ -106,10 +106,13 @@ func (ec *EllipticCurve) UnMarshalPublic([]byte) (crypto.PublicKey, error) {
 
 // GetEncrypter returns the SymmetricEncrypter which could be used for encrypting and decrypting
 // custom application level messages.
-func (ec *EllipticCurve) GetEncrypter() *SymmetricEncrypter {
-	return nil
+func (ec *EllipticCurve) GetEncrypter(agreedKey []byte) SymmetricEncrypter {
+	return NewAESEncrypter(agreedKey)
 }
 
+// TODO: Direct port. Yep, actually crypto.Private and public keys are nil interfaces.
+//  I'm not sure why would someone do a bad design. I might be dumb too, that's probably it.
+//  These are mere "cast checks" anyway.
 func checkPrivateKey(typeToCheck interface{}) (key []byte, ok bool) {
 	switch t := typeToCheck.(type) {
 	case []byte:
